@@ -1,11 +1,10 @@
 ### llama-core
-
 [<img src="https://raw.githubusercontent.com/calcuis/gguf-connector/master/gguf.gif" width="128" height="128">](https://github.com/calcuis/llama-core)
 [![Static Badge](https://img.shields.io/badge/core-0.0.3-blue?logo=github)](https://github.com/calcuis/llama-core/releases)
 
 This is a solo llama connector; being able to work independently.
 
-#### install via pip/pip3:
+#### install via (pip/pip3):
 ```
 pip install llama-core
 ```
@@ -13,7 +12,6 @@ pip install llama-core
 ```
 python -m llama_core
 ```
-
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo.gif)
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo1.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo1.gif)
 
