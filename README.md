@@ -2,7 +2,7 @@
 [<img src="https://raw.githubusercontent.com/calcuis/llama-core/master/lime.gif" width="128" height="128">](https://github.com/calcuis/llama-core)
 [![Static Badge](https://img.shields.io/badge/core-0.0.4-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
 
-This is a solo llama connector; being able to work independently.
+This is also a solo llama connector; being able to work independently.
 
 #### install via (pip/pip3):
 ```
