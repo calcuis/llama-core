@@ -33,7 +33,7 @@ $env:CMAKE_GENERATOR = "MinGW Makefiles"
 $env:CMAKE_ARGS = "-DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe"
 pip install llama-core-(version).tar.gz
 ```
-In mac, xcode command line tools are recommended by Apple for dealing all coding related issue(s); or you can bypass it for your own preference.
+In mac, xcode command line tools are recommended by Apple for dealing all coding related issue(s); or you can bypass it for your own good/preference.
 #### for mac user(s):
 ```
 pip3 install llama-core-(version).tar.gz
