@@ -19,7 +19,7 @@ Prompt to user interface selection menu above; while chosen, GGUF file(s) in the
 
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo.gif)
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo1.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo1.gif)
-
+#### remark(s)
 Other functions are same as llama-cpp-python; for CUDA(GPU, Nvida) and Metal(M1/M2, Apple) supported settings, please specify `CMAKE_ARGS` following Abetlen's repo below; if you want to install it by source file (under releases), you should opt to do it by .tar.gz file (then build your machine-customized installable package) rather than .whl (wheel; a pre-built binary package) with an appropriate cmake tag(s).
 #### references
 [llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
