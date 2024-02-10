@@ -20,7 +20,7 @@ Other functions are same as llama-cpp-python; for CUDA(GPU, Nvida) and Metal(M1/
 [llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
 [llama.cpp](https://github.com/ggerganov/llama.cpp)
 
-#### build from llama-core-(version).tar.gz
+#### build from llama-core-(version).tar.gz (examples below are for CPU)
 According to the latest note inside vs code, msys64 is recommended by Microsoft; or you can opt w64devkit or etc. as source of your gcc and g++ compilers.
 #### for windows user(s):
 ```
@@ -28,9 +28,9 @@ $env:CMAKE_GENERATOR = "MinGW Makefiles"
 $env:CMAKE_ARGS = "-DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe"
 pip install llama-core-(version).tar.gz
 ```
-If you use mac then xcode command line tools are recommended by Apple to handle all coding related issue(s); or you can bypass it for your own preference.
+If you use mac then xcode command line tools are recommended by Apple for dealing all coding related issue(s); or you can bypass it for your own preference.
 #### for mac user(s):
 ```
 pip3 install llama-core-(version).tar.gz
 ```
-Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; if you opt to install via wheels (.whl) then you don't need to worry about that.
+Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; if you opt to install it by wheel (.whl) file then you don't need to worry about that.
