@@ -33,4 +33,4 @@ In mac, xcode command line tools are recommended by Apple for dealing all coding
 ```
 pip3 install llama-core-(version).tar.gz
 ```
-Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; if you opt to install it by wheel (.whl) file then you don't need to worry about that.
+Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; if you opt to install it by pre-built wheel (.whl) file then you don't need to worry about that.
