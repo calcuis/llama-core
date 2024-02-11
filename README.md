@@ -25,7 +25,7 @@ Other functions are same as llama-cpp-python; for CUDA(GPU, Nvida) and Metal(M1/
 [llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
 [llama.cpp](https://github.com/ggerganov/llama.cpp)
 
-#### build from llama-core-(version).tar.gz (examples below are for CPU)
+#### build from llama_core-(version).tar.gz (examples below are for CPU)
 According to the latest note inside vs code, msys64 is recommended by Microsoft; or you can opt w64devkit or etc. as source of your gcc and g++ compilers.
 #### for windows user(s):
 ```
