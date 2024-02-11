@@ -1,6 +1,6 @@
 ### llama-core
 [<img src="https://raw.githubusercontent.com/calcuis/llama-core/master/lime.gif" width="128" height="128">](https://github.com/calcuis/llama-core)
-[![Static Badge](https://img.shields.io/badge/core-0.0.4-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
+[![Static Badge](https://img.shields.io/badge/core-0.0.5-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
 
 This is also a solo llama connector; being able to work independently.
 
@@ -31,11 +31,11 @@ According to the latest note inside vs code, msys64 is recommended by Microsoft;
 ```
 $env:CMAKE_GENERATOR = "MinGW Makefiles"
 $env:CMAKE_ARGS = "-DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe"
-pip install llama-core-(version).tar.gz
+pip install llama_core-(version).tar.gz
 ```
 In mac, xcode command line tools are recommended by Apple for dealing all coding related issue(s); or you can bypass it for your own good/preference.
 #### for mac user(s):
 ```
-pip3 install llama-core-(version).tar.gz
+pip3 install llama_core-(version).tar.gz
 ```
 Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; other settings include: typing-extensions>=4.5.0, numpy>=1.20.0, diskcache>=5.6.1, jinja2>=2.11.3, cmake>=3.21, etc.; however, if you opt to install it by the pre-built wheel (.whl) file then you don't need to worry about that.
