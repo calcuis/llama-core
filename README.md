@@ -22,9 +22,9 @@ Prompt to user interface selection menu above; while chosen, GGUF file(s) in the
 #### remark(s)
 Other functions are same as llama-cpp-python; for CUDA(GPU, Nvida) and Metal(M1/M2, Apple) supported settings, please specify `CMAKE_ARGS` following Abetlen's repo below; if you want to install it by source file (under releases), you should opt to do it by .tar.gz file (then build your machine-customized installable package) rather than .whl (wheel; a pre-built binary package) with an appropriate cmake tag(s).
 #### references
-[llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
+repo [llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
 [llama.cpp](https://github.com/ggerganov/llama.cpp)
-
+page [gguf.us](https://gguf.us)
 #### build from llama_core-(version).tar.gz (examples below are for CPU)
 According to the latest note inside vs code, msys64 is recommended by Microsoft; or you can opt w64devkit or etc. as source of your gcc and g++ compilers.
 #### for windows user(s):
