@@ -20,6 +20,10 @@ Prompt to user interface selection menu above; while chosen, GGUF file(s) in the
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo.gif)
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo1.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo1.gif)
 
+#### include interface selector to your code by adding:
+```
+from llama_core import menu
+```
 #### include gguf reader to your code by adding:
 ```
 from llama_core import reader
