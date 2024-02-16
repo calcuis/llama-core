@@ -1,6 +1,6 @@
 ### llama-core
 [<img src="https://raw.githubusercontent.com/calcuis/llama-core/master/lime.gif" width="128" height="128">](https://github.com/calcuis/llama-core)
-[![Static Badge](https://img.shields.io/badge/core-0.0.8-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
+[![Static Badge](https://img.shields.io/badge/core-0.0.9-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
 
 This is a solo llama connector also; being able to work independently.
 
@@ -19,6 +19,16 @@ Prompt to user interface selection menu above; while chosen, GGUF file(s) in the
 
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo.gif)
 [<img src="https://raw.githubusercontent.com/calcuis/chatgpt-model-selector/master/demo1.gif" width="350" height="280">](https://github.com/calcuis/chatgpt-model-selector/blob/main/demo1.gif)
+
+#### include gguf reader to your code by adding:
+```
+from llama_core import reader
+```
+#### include gguf writer to your code by adding:
+```
+from llama_core import writer
+```
+
 #### remark(s)
 Other functions are same as llama-cpp-python; for CUDA(GPU, Nvida) and Metal(M1/M2, Apple) supported settings, please specify `CMAKE_ARGS` following Abetlen's repo below; if you want to install it by source file (under releases), you should opt to do it by .tar.gz file (then build your machine-customized installable package) rather than .whl (wheel; a pre-built binary package) with an appropriate cmake tag(s).
 #### references
