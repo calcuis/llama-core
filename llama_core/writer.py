@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 import os
@@ -10,7 +11,7 @@ from typing import IO, Any, Sequence
 
 import numpy as np
 
-from .constants import (
+from .const import (
     GGUF_DEFAULT_ALIGNMENT,
     GGUF_MAGIC,
     GGUF_VERSION,
