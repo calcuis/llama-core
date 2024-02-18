@@ -1,8 +1,6 @@
 
-# from .reader import *
-
 def read_gguf_file(gguf_file_path):
-    # from gguf.gguf_reader import GGUFReader
+    # from .reader import GGUFReader
     from llama_core.reader import GGUFReader
 
     reader = GGUFReader(gguf_file_path)
