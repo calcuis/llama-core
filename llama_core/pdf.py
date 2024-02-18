@@ -21,7 +21,7 @@ def pdf_handler():
             selected_file=pdf_files[choice_index]
             print(f"PDF file: {selected_file} is selected!")
 
-            from rpdf import PdfReader
+            from pdf import PdfReader
             reader = PdfReader(selected_file)
 
             text=""
