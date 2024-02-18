@@ -1,6 +1,4 @@
-#
-# GGUF file reader
-#
+
 from __future__ import annotations
 
 import os
@@ -10,13 +8,7 @@ from typing import Any, Literal, NamedTuple, TypeVar, Union
 import numpy as np
 import numpy.typing as npt
 
-# if __name__ == "__main__":
-#     import sys
-#     from pathlib import Path
-#     # Allow running file in package as a script.
-#     sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from .constants import (
+from .const import (
     GGML_QUANT_SIZES,
     GGUF_DEFAULT_ALIGNMENT,
     GGUF_MAGIC,
