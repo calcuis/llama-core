@@ -5,7 +5,7 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "llama_core"
 dynamic = ["version"]
-description = "Connector built on llama.cpp"
+description = "gguf connector core built on llama.cpp"
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
@@ -21,12 +21,23 @@ dependencies = [
 ]
 requires-python = ">=3.7"
 classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Intended Audience :: Legal Industry",
+    "Intended Audience :: Healthcare Industry",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 [tool.scikit-build]
