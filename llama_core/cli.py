@@ -23,7 +23,7 @@ if gguf_files:
         while True:
             ask = input("Enter a Question (Q for quit): ")
 
-            if ask == "q" or ask == "Q":
+            if ask.lower() == 'q':
                 break
 
             print("Processing...")
