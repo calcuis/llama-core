@@ -39,13 +39,16 @@ def pdf_handler():
             # ask = input("Enter a Question (Q for quit): ")
             input("---Enter to analyze the PDF content above---")
 
-            print("Processing...")
-            
+            # print("Processing...")
             # ###########################################
             # # # output = llm("Q: "+inject, max_tokens=4096, echo=True)
-            output = llm("Q: "+inject, max_tokens=32768, echo=True)
-            answer = output['choices'][0]['text']
-            print(answer+"\n")
+            # ###########################################
+            from llama_core.rich.progress import Progress
+            with Progress(transient=True) as progress:
+                task = progress.add_task("Processing", total=None)
+                output = llm("Q: "+inject, max_tokens=32768, echo=True)
+                answer = output['choices'][0]['text']
+                print(answer+"\n")
             # ###########################################
 
         except (ValueError, IndexError):
