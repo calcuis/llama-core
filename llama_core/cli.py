@@ -26,10 +26,13 @@ if gguf_files:
             if ask.lower() == 'q':
                 break
 
-            print("Processing...")
-            output = llm("Q: "+ask, max_tokens=2048, echo=True)
-            answer = output['choices'][0]['text']
-            print(answer+"\n")
+            from llama_core.rich.progress import Progress
+            with Progress(transient=True) as progress:
+                task = progress.add_task("Processing", total=None)
+                # print("Processing...")
+                output = llm("Q: "+ask, max_tokens=2048, echo=True)
+                answer = output['choices'][0]['text']
+                print(answer+"\n")
 
     except (ValueError, IndexError):
         print("Invalid choice. Please enter a valid number.")
