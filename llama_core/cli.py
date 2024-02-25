@@ -26,7 +26,7 @@ if gguf_files:
             if ask.lower() == 'q':
                 break
 
-            from llama_core.rich.progress import Progress
+            from rich.progress import Progress
             with Progress(transient=True) as progress:
                 task = progress.add_task("Processing", total=None)
                 # print("Processing...")
