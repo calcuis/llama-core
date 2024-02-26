@@ -25,7 +25,7 @@ from typing import (
     Union,
 )
 
-from rich.repr import RichReprResult
+from .repr import RichReprResult
 
 try:
     import attr as _attr_module
