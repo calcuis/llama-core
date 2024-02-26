@@ -11,7 +11,7 @@ if sys.version_info >= (3, 8):
 else:
     from typing_extensions import get_args  # pragma: no cover
 
-from rich.table import Table
+from .table import Table
 
 from . import box
 from ._loop import loop_first
