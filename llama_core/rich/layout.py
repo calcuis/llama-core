@@ -26,7 +26,7 @@ from .segment import Segment
 from .style import StyleType
 
 if TYPE_CHECKING:
-    from rich.tree import Tree
+    from .tree import Tree
 
 
 class LayoutRender(NamedTuple):
