@@ -6,8 +6,7 @@ import ctypes
 import dataclasses
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union, Protocol
 
-import jinja2
-
+import llama_core.jinja2
 import llama_core.llama as llama
 import llama_core.llama_types as llama_types
 import llama_core.llama_grammar as llama_grammar
