@@ -172,8 +172,8 @@ class Jinja2ChatFormatter(ChatFormatter):
         self.bos_token = bos_token
         self.add_generation_prompt = add_generation_prompt
 
-        self._environment = jinja2.Environment(
-            loader=jinja2.BaseLoader(),
+        self._environment = llama_core.jinja2.Environment(
+            loader=llama_core.jinja2.BaseLoader(),
             trim_blocks=True,
             lstrip_blocks=True,
         ).from_string(self.template)
