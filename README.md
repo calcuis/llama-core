@@ -1,6 +1,6 @@
 ### llama-core
 [<img src="https://raw.githubusercontent.com/calcuis/llama-core/master/lime.gif" width="128" height="128">](https://github.com/calcuis/llama-core)
-[![Static Badge](https://img.shields.io/badge/core-0.1.6-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
+[![Static Badge](https://img.shields.io/badge/core-0.1.7-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
 
 This is a solo llama connector also; being able to work independently.
 
@@ -52,4 +52,4 @@ In mac, xcode command line tools are recommended by Apple for dealing all coding
 ```
 pip3 install llama_core-(version).tar.gz
 ```
-Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; other settings include: typing-extensions>=4.5.0, numpy>=1.20.0, diskcache>=5.6.1, jinja2>=2.11.3, MarkupSafe>=2.0, cmake>=3.21, etc.; however, if you opt to install it by the pre-built wheel (.whl) file then you don't need to worry about that.
+Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; other setting(s) include: cmake>=3.21, etc.; however, if you opt to install it by the pre-built wheel (.whl) file then you don't need to worry about that.
