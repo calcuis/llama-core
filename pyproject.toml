@@ -12,9 +12,9 @@ authors = [
     { name = "calcuis", email = "calculatics@gmail.com" },
 ]
 dependencies = [
-    "typing-extensions>=4.5.0",
     "numpy>=1.20.0",
     "pygments>=2.13.0",
+    "typing-extensions>=4.5.0",
 ]
 requires-python = ">=3.7"
 classifiers = [
