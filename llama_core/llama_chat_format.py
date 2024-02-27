@@ -6,7 +6,8 @@ import ctypes
 import dataclasses
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union, Protocol
 
-import llama_core.jinja2
+import jinja2
+
 import llama_core.llama as llama
 import llama_core.llama_types as llama_types
 import llama_core.llama_grammar as llama_grammar
@@ -172,8 +173,8 @@ class Jinja2ChatFormatter(ChatFormatter):
         self.bos_token = bos_token
         self.add_generation_prompt = add_generation_prompt
 
-        self._environment = llama_core.jinja2.Environment(
-            loader=llama_core.jinja2.BaseLoader(),
+        self._environment = jinja2.Environment(
+            loader=jinja2.BaseLoader(),
             trim_blocks=True,
             lstrip_blocks=True,
         ).from_string(self.template)
