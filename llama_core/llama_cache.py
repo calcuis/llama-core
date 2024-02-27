@@ -7,7 +7,7 @@ from typing import (
 )
 from collections import OrderedDict
 
-import diskcache
+import llama_core.diskcache
 
 import llama_core.llama
 
