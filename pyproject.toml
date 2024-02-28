@@ -9,11 +9,11 @@ description = "gguf connector core built on llama.cpp"
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
-    { name = "calcuis", email = "calculatics@gmail.com" },
+    { name = "calcuis", email = "info@calcu.io" },
 ]
 dependencies = [
     "certifi",
-    "jinja2>=2.11.3",
+    "jinja2>=2.12.0",
     "numpy>=1.20.0",
     "typing-extensions>=4.5.0",
 ]
