@@ -1,6 +1,6 @@
 ### llama-core
 [<img src="https://raw.githubusercontent.com/calcuis/llama-core/master/lime.gif" width="128" height="128">](https://github.com/calcuis/llama-core)
-[![Static Badge](https://img.shields.io/badge/core-0.2.2-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
+[![Static Badge](https://img.shields.io/badge/core-0.2.3-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
 
 This is a solo llama connector also; being able to work independently.
 
@@ -40,7 +40,7 @@ repo [llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
 [llama.cpp](https://github.com/ggerganov/llama.cpp)
 page [gguf.us](https://gguf.us)
 #### build from llama_core-(version).tar.gz (examples below are for CPU)
-According to the latest note inside vs code, msys64 is recommended by Microsoft; or you can opt w64devkit or etc. as source of your gcc and g++ compilers.
+According to the latest note inside vs code, msys64 is recommended by Microsoft; or you can opt w64devkit or etc. as source/location of your gcc and g++ compilers.
 #### for windows user(s):
 ```
 $env:CMAKE_GENERATOR = "MinGW Makefiles"
