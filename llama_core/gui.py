@@ -19,7 +19,7 @@ if gguf_files:
 
         from llama_core import Llama
         llm = Llama(model_path=ModelPath)
-        
+
         from tkinter import *
         import tkinter.scrolledtext as st
 
@@ -28,7 +28,7 @@ if gguf_files:
         root.columnconfigure([0, 1, 2], minsize=150)
         root.rowconfigure(0, weight=2)
         root.rowconfigure(1, weight=1)
-        
+
         icon = PhotoImage(file = os.path.join(os.path.dirname(__file__), "logo.png"))
         root.iconphoto(False, icon)
 
@@ -37,9 +37,17 @@ if gguf_files:
 
         def submit(i):
             root.title("Processing...")
-            output = llm("Q: "+str(i.get()), max_tokens=2048, echo=True)
-            answer = output['choices'][0]['text']
-            print(answer)
+            
+            print("Note: if you move the banner, it might show: (Not Responding); but running in background still; please be patient.")
+            from rich.progress import Progress
+            with Progress(transient=True) as progress:
+                task = progress.add_task("Processing", total=None)
+                output = llm("Q: "+str(i.get()), max_tokens=2048, echo=True)
+                answer = output['choices'][0]['text']
+                token_info = output["usage"]["total_tokens"]
+                print("Raw input: "+str(i.get())+" (token used: "+str(token_info)+")\n")
+                print(answer)
+
             o.insert(INSERT, answer+"\n\n")
             i.delete(0, END)
             root.title("chatGPT")
