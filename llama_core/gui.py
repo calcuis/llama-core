@@ -38,7 +38,10 @@ if gguf_files:
         def submit(i):
             root.title("Processing...")
             
-            print("Note: if you move the banner, it might show: (Not Responding); but running in background still; please be patient.")
+            from rich.console import Console
+            console = Console()
+            console.print("*note: [green]it might show: (Not Responding) and/or keep spinning; but running in background still; please be patient.")
+            
             from rich.progress import Progress
             with Progress(transient=True) as progress:
                 task = progress.add_task("Processing", total=None)
