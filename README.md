@@ -40,14 +40,14 @@ repo [llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
 [llama.cpp](https://github.com/ggerganov/llama.cpp)
 page [gguf.us](https://gguf.us)
 #### build from llama_core-(version).tar.gz (examples below are for CPU)
-According to the latest note inside vs code, msys64 is recommended by Microsoft; or you can opt w64devkit or etc. as source/location of your gcc and g++ compilers.
+According to the latest note inside vs code, msys64 was recommended by Microsoft; or you could opt w64devkit or etc. as source/location of your gcc and g++ compilers.
 #### for windows user(s):
 ```
 $env:CMAKE_GENERATOR = "MinGW Makefiles"
 $env:CMAKE_ARGS = "-DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe"
 pip install llama_core-(version).tar.gz
 ```
-In mac, xcode command line tools are recommended by Apple for dealing all coding related issue(s); or you can bypass it for your own good/preference.
+In mac, xcode command line tools were recommended by Apple for dealing all coding related issue(s); or you could bypass it for your own good/preference.
 #### for mac user(s):
 ```
 pip3 install llama_core-(version).tar.gz
