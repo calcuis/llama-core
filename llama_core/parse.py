@@ -1,6 +1,6 @@
 
 def read_gguf_file(gguf_file_path):
-    from gguf_connector.reader2 import GGUFReader, ReaderError
+    from llama_core.parser import GGUFReader, ReaderError
     reader = GGUFReader(gguf_file_path)
     try:
         reader.read()
