@@ -1,6 +1,6 @@
 ### llama-core
 [<img src="https://raw.githubusercontent.com/calcuis/llama-core/master/lime.gif" width="128" height="128">](https://github.com/calcuis/llama-core)
-[![Static Badge](https://img.shields.io/badge/core-0.3.0-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
+[![Static Badge](https://img.shields.io/badge/core-0.3.1-lime?logo=github)](https://github.com/calcuis/llama-core/releases)
 
 This is a solo llama connector also; being able to work independently.
 
