@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-import os
-import ctypes
+import os, ctypes
 
 from typing import (
     List,
