@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import os
@@ -49,7 +48,7 @@ class ReaderTensor(NamedTuple):
 
 class GGUFReader:
     # I - same as host, S - swapped
-    byte_order: Literal['I' | 'S'] = 'I'
+    byte_order: Literal['I' , 'S'] = 'I'
     alignment: int = GGUF_DEFAULT_ALIGNMENT
 
     # Note: Internal helper, API may change.
@@ -67,7 +66,7 @@ class GGUFReader:
         GGUFValueType.BOOL:    np.bool_,
     }
 
-    def __init__(self, path: os.PathLike[str] | str, mode: Literal['r' | 'r+' | 'c'] = 'r'):
+    def __init__(self, path: os.PathLike[str] | str, mode: Literal['r' , 'r+' , 'c'] = 'r'):
         self.data = np.memmap(path, mode = mode)
         offs = 0
         if self._get(offs, np.uint32, override_order = '<')[0] != GGUF_MAGIC:
@@ -112,7 +111,7 @@ class GGUFReader:
         return self.tensors[idx]
 
     def _get(
-        self, offset: int, dtype: npt.DTypeLike, count: int = 1, override_order: None | Literal['I' | 'S' | '<'] = None,
+        self, offset: int, dtype: npt.DTypeLike, count: int = 1, override_order: None | Literal['I' , 'S' , '<'] = None,
     ) -> npt.NDArray[Any]:
         count = int(count)
         itemsize = int(np.empty([], dtype = dtype).itemsize)
