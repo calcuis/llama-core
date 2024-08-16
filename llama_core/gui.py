@@ -1,4 +1,3 @@
-
 import os
 
 gguf_files = [file for file in os.listdir() if file.endswith('.gguf')]
