@@ -52,7 +52,8 @@ In mac, xcode command line tools were recommended by Apple for dealing all codin
 ```
 pip3 install llama_core-(version).tar.gz
 ```
-#### example setup for metal - faster performance
+#### high (just a little bit better) performance (if you have bad temper/impatient)
+#### example setup for metal - faster
 Metal (M1/M2/M3 - Apple)
 ```
 CMAKE_ARGS="-DGGML_METAL=on" pip3 install llama_core-(version).tar.gz
