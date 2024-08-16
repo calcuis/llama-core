@@ -52,14 +52,12 @@ In mac, xcode command line tools were recommended by Apple for dealing all codin
 ```
 pip3 install llama_core-(version).tar.gz
 ```
-#### high (just a little bit better) performance seeker(s)
-#### example setup for metal - faster
-Metal (M1/M2/M3 - Apple)
+#### for high (just a little bit better) performance seeker(s):
+example setup for metal (M1/M2/M3 - Apple) - faster
 ```
 CMAKE_ARGS="-DGGML_METAL=on" pip3 install llama_core-(version).tar.gz
 ```
-#### example setup for cuda - faster x2; depends on your model (how rich you are)
-Cuda (GPU - Nvida)
+example setup for cuda (GPU - Nvida) - faster x2; depends on your model (how rich you are)
 ```
 CMAKE_ARGS="-DGGML_CUDA=on" pip install llama_core-(version).tar.gz
 ```
