@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-import os
-import sys
-import uuid
-import time
-import multiprocessing
+import os, sys, uuid, time, multiprocessing
+
 from typing import (
     List,
     Optional,
@@ -44,7 +41,6 @@ from ._internals import (
     _LlamaSamplingContext,  # type: ignore
 )
 from ._logger import set_verbose
-
 
 class Llama:
     """High-level Python wrapper for a llama.cpp model."""
@@ -1737,7 +1733,6 @@ class Llama:
                 break
         return longest_prefix
 
-
 class LlamaTokenizer:
     def __init__(self, llama: Llama):
         self.llama = llama
@@ -1770,11 +1765,9 @@ class LlamaState:
         self.llama_state = llama_state
         self.llama_state_size = llama_state_size
 
-
 LogitsProcessor = Callable[
     [npt.NDArray[np.intc], npt.NDArray[np.single]], npt.NDArray[np.single]
 ]
-
 
 class LogitsProcessorList(List[LogitsProcessor]):
     def __call__(
@@ -1784,9 +1777,7 @@ class LogitsProcessorList(List[LogitsProcessor]):
             scores = processor(input_ids, scores)
         return scores
 
-
 StoppingCriteria = Callable[[npt.NDArray[np.intc], npt.NDArray[np.single]], bool]
-
 
 class StoppingCriteriaList(List[StoppingCriteria]):
     def __call__(
