@@ -6,7 +6,6 @@ import sys, ctypes, logging, llama_core
 #     GGML_LOG_LEVEL_INFO = 4,
 #     GGML_LOG_LEVEL_DEBUG = 5
 # };
-
 GGML_LOG_LEVEL_TO_LOGGING_LEVEL = {
     2: logging.ERROR,
     3: logging.WARNING,
