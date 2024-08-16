@@ -34,12 +34,12 @@ from llama_core import writer
 ```
 
 #### remark(s)
-Other functions are same as llama-cpp-python; for CUDA(GPU, Nvida) and Metal(M1/M2, Apple) supported settings, please specify `CMAKE_ARGS` following Abetlen's repo below; if you want to install it by source file (under releases), you should opt to do it by .tar.gz file (then build your machine-customized installable package) rather than .whl (wheel; a pre-built binary package) with an appropriate cmake tag(s).
+Other functions are same as llama-cpp-python; for CUDA(GPU, Nvida) and Metal(M1/M2/M3, Apple) supported settings, please specify `CMAKE_ARGS` following Abetlen's repo below; if you want to install it by source file (under releases), you should opt to do it by .tar.gz file (then build your machine-customized installable package) rather than .whl (wheel; a pre-built binary package) with an appropriate cmake tag(s).
 #### references
 repo [llama-cpp-python](https://github.com/abetlen/llama-cpp-python)
 [llama.cpp](https://github.com/ggerganov/llama.cpp)
 page [gguf.us](https://gguf.us)
-#### build from llama_core-(version).tar.gz (examples below are for CPU)
+#### build from llama_core-(version).tar.gz (examples for CPU setup below)
 According to the latest note inside vs code, msys64 was recommended by Microsoft; or you could opt w64devkit or etc. as source/location of your gcc and g++ compilers.
 #### for windows user(s):
 ```
@@ -51,5 +51,15 @@ In mac, xcode command line tools were recommended by Apple for dealing all codin
 #### for mac user(s):
 ```
 pip3 install llama_core-(version).tar.gz
+```
+#### example setup for metal
+Metal (M1/M2/M3 - Apple)
+```
+CMAKE_ARGS="-DGGML_METAL=on" pip3 install llama_core-(version).tar.gz
+```
+#### example setup for cuda
+Cuda (GPU - Nvida)
+```
+CMAKE_ARGS="-DGGML_CUDA=on" pip install llama_core-(version).tar.gz
 ```
 Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; other setting(s) include: cmake>=3.21, etc.; however, if you opt to install it by the pre-built wheel (.whl) file then you don't need to worry about that.
