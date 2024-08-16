@@ -5,14 +5,12 @@ from typing import Any
 import numpy as np
 import numpy.typing as npt
 
-
 class LlamaDraftModel(abc.ABC):
     @abc.abstractmethod
     def __call__(
         self, input_ids: npt.NDArray[np.intc], /, **kwargs: Any
     ) -> npt.NDArray[np.intc]:
         raise NotImplementedError()
-
 
 class LlamaPromptLookupDecoding(LlamaDraftModel):
     """Based on https://github.com/apoorvumang/prompt-lookup-decoding"""
