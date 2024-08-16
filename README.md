@@ -61,4 +61,4 @@ example setup for cuda (GPU - Nvida) - faster x2; depends on your model (how ric
 ```
 CMAKE_ARGS="-DGGML_CUDA=on" pip install llama_core-(version).tar.gz
 ```
-Make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; other setting(s) include: cmake>=3.21, etc.; however, if you opt to install it by the pre-built wheel (.whl) file then you don't need to worry about that.
+make sure your gcc and g++ are >=11; you can check it by: gcc --version and g++ --version; other setting(s) include: cmake>=3.21, etc.; however, if you opt to install it by the pre-built wheel (.whl) file then you don't need to worry about that.
