@@ -1,6 +1,5 @@
-import sys
-import os
-import ctypes
+import sys, os, ctypes
+
 from ctypes import (
     c_bool,
     c_char_p,
@@ -22,7 +21,6 @@ from ctypes import (
 )
 import pathlib
 from typing import List, Union
-
 
 # Load the library
 def _load_shared_library(lib_base_name: str):
@@ -79,7 +77,6 @@ def _load_shared_library(lib_base_name: str):
         f"Shared library with base name '{lib_base_name}' not found"
     )
 
-
 # Specify the base name of the shared library to load
 _lib_base_name = "llama"
 
@@ -119,13 +116,11 @@ LLAMA_SESSION_MAGIC = LLAMA_FILE_MAGIC_GGSN
 # define LLAMA_SESSION_VERSION 4
 LLAMA_SESSION_VERSION = 4
 
-
 # struct llama_model;
 llama_model_p = c_void_p
 
 # struct llama_context;
 llama_context_p = c_void_p
-
 
 # typedef int32_t llama_pos;
 llama_pos = c_int32
@@ -135,14 +130,12 @@ llama_token_p = POINTER(llama_token)
 # typedef int32_t llama_seq_id;
 llama_seq_id = c_int32
 
-
 # enum llama_vocab_type {
 #     LLAMA_VOCAB_TYPE_SPM = 0, // SentencePiece
 #     LLAMA_VOCAB_TYPE_BPE = 1, // Byte Pair Encoding
 # };
 LLAMA_VOCAB_TYPE_SPM = 0
 LLAMA_VOCAB_TYPE_BPE = 1
-
 
 # enum llama_token_type {
 #     LLAMA_TOKEN_TYPE_UNDEFINED    = 0,
@@ -160,7 +153,6 @@ LLAMA_TOKEN_TYPE_CONTROL = 3
 LLAMA_TOKEN_TYPE_USER_DEFINED = 4
 LLAMA_TOKEN_TYPE_UNUSED = 5
 LLAMA_TOKEN_TYPE_BYTE = 6
-
 
 # // model file types
 # enum llama_ftype {
@@ -237,7 +229,6 @@ LLAMA_SPLIT_NONE = 0
 LLAMA_SPLIT_LAYER = 1
 LLAMA_SPLIT_ROW = 2
 
-
 # typedef struct llama_token_data {
 #     llama_token id; // token id
 #     float logit;    // log-odds of the token
@@ -257,9 +248,7 @@ class llama_token_data(Structure):
         ("p", c_float),
     ]
 
-
 llama_token_data_p = POINTER(llama_token_data)
-
 
 # typedef struct llama_token_data_array {
 #     llama_token_data * data;
@@ -280,12 +269,10 @@ class llama_token_data_array(Structure):
         ("sorted", c_bool),
     ]
 
-
 llama_token_data_array_p = POINTER(llama_token_data_array)
 
 # typedef bool (*llama_progress_callback)(float progress, void *ctx);
 llama_progress_callback = ctypes.CFUNCTYPE(c_bool, c_float, c_void_p)
-
 
 # // Input data for llama_decode
 # // A llama_batch object can contain input about one or many sequences
@@ -306,7 +293,6 @@ llama_progress_callback = ctypes.CFUNCTYPE(c_bool, c_float, c_void_p)
 #     int32_t      *  n_seq_id;
 #     llama_seq_id ** seq_id;
 #     int8_t       *  logits;
-
 
 #     // NOTE: helpers for smooth API transition - can be deprecated in the future
 #     //       for future-proof code, use the above fields instead and ignore everything below
@@ -344,7 +330,6 @@ class llama_batch(Structure):
         ("all_seq_id", llama_seq_id),
     ]
 
-
 # enum llama_model_kv_override_type {
 #     LLAMA_KV_OVERRIDE_INT,
 #     LLAMA_KV_OVERRIDE_FLOAT,
@@ -353,7 +338,6 @@ class llama_batch(Structure):
 LLAMA_KV_OVERRIDE_INT = 0
 LLAMA_KV_OVERRIDE_FLOAT = 1
 LLAMA_KV_OVERRIDE_BOOL = 2
-
 
 # struct llama_model_kv_override {
 #     char key[128];
@@ -371,14 +355,12 @@ class llama_model_kv_override_value(CtypesUnion):
         ("bool_value", c_bool),
     ]
 
-
 class llama_model_kv_override(Structure):
     _fields_ = [
         ("key", ctypes.c_char * 128),
         ("tag", c_int),
         ("value", llama_model_kv_override_value),
     ]
-
 
 # struct llama_model_params {
 #     int32_t n_gpu_layers; // number of layers to store in VRAM
@@ -437,7 +419,6 @@ class llama_model_params(Structure):
         ("use_mmap", c_bool),
         ("use_mlock", c_bool),
     ]
-
 
 # struct llama_context_params {
 #     uint32_t seed;              // RNG seed, -1 for random
@@ -520,7 +501,6 @@ class llama_context_params(Structure):
         ("offload_kqv", c_bool),
     ]
 
-
 # // Signature for logging events
 # // Note that text includes the new line character at the end for most events.
 # // If your logging mechanism cannot handle that, check if the last character is '\n' and strip it
@@ -533,7 +513,6 @@ Note that text includes the new line character at the end for most events.
 If your logging mechanism cannot handle that, check if the last character is '\n' and strip it
 if it exists.
 It might not exist for progress report where '.' is output repeatedly."""
-
 
 # // model quantization parameters
 # typedef struct llama_model_quantize_params {
@@ -567,7 +546,6 @@ class llama_model_quantize_params(Structure):
         ("pure", c_bool),
         ("imatrix", c_void_p),
     ]
-
 
 # // grammar types
 # struct llama_grammar;
@@ -606,7 +584,6 @@ LLAMA_GRETYPE_CHAR_NOT = 4
 LLAMA_GRETYPE_CHAR_RNG_UPPER = 5
 LLAMA_GRETYPE_CHAR_ALT = 6
 
-
 # typedef struct llama_grammar_element {
 #     enum llama_gretype type;
 #     uint32_t           value; // Unicode code point or rule ID
@@ -616,7 +593,6 @@ class llama_grammar_element(Structure):
         ("type", c_int),
         ("value", c_uint32),
     ]
-
 
 llama_grammar_element_p = POINTER(llama_grammar_element)
 
@@ -628,7 +604,6 @@ llama_grammar_element_p = POINTER(llama_grammar_element)
 #     double t_sample_ms;
 #     double t_p_eval_ms;
 #     double t_eval_ms;
-
 
 #     int32_t n_sample;
 #     int32_t n_p_eval;
@@ -647,37 +622,30 @@ class llama_timings(Structure):
         ("n_eval", c_int32),
     ]
 
-
 # // Helpers for getting default parameters
 # LLAMA_API struct llama_model_params llama_model_default_params(void);
 def llama_model_default_params() -> llama_model_params:
     """Get default parameters for llama_model"""
     return _lib.llama_model_default_params()
 
-
 _lib.llama_model_default_params.argtypes = []
 _lib.llama_model_default_params.restype = llama_model_params
-
 
 # LLAMA_API struct llama_context_params llama_context_default_params(void);
 def llama_context_default_params() -> llama_context_params:
     """Get default parameters for llama_context"""
     return _lib.llama_context_default_params()
 
-
 _lib.llama_context_default_params.argtypes = []
 _lib.llama_context_default_params.restype = llama_context_params
-
 
 # LLAMA_API struct llama_model_quantize_params llama_model_quantize_default_params(void);
 def llama_model_quantize_default_params() -> llama_model_quantize_params:
     """Get default parameters for llama_model_quantize"""
     return _lib.llama_model_quantize_default_params()
 
-
 _lib.llama_model_quantize_default_params.argtypes = []
 _lib.llama_model_quantize_default_params.restype = llama_model_quantize_params
-
 
 # // Initialize the llama + ggml backend
 # // If numa is true, use NUMA optimizations
@@ -689,10 +657,8 @@ def llama_backend_init(numa: Union[c_bool, bool]):
     Call once at the start of the program"""
     return _lib.llama_backend_init(numa)
 
-
 _lib.llama_backend_init.argtypes = [c_bool]
 _lib.llama_backend_init.restype = None
-
 
 # // Call once at the end of the program - currently only used for MPI
 # LLAMA_API void llama_backend_free(void);
@@ -700,10 +666,8 @@ def llama_backend_free():
     """Call once at the end of the program - currently only used for MPI"""
     return _lib.llama_backend_free()
 
-
 _lib.llama_backend_free.argtypes = []
 _lib.llama_backend_free.restype = None
-
 
 # LLAMA_API struct llama_model * llama_load_model_from_file(
 #                          const char * path_model,
@@ -713,19 +677,15 @@ def llama_load_model_from_file(
 ) -> llama_model_p:
     return _lib.llama_load_model_from_file(path_model, params)
 
-
 _lib.llama_load_model_from_file.argtypes = [c_char_p, llama_model_params]
 _lib.llama_load_model_from_file.restype = llama_model_p
-
 
 # LLAMA_API void llama_free_model(struct llama_model * model);
 def llama_free_model(model: llama_model_p):
     return _lib.llama_free_model(model)
 
-
 _lib.llama_free_model.argtypes = [llama_model_p]
 _lib.llama_free_model.restype = None
-
 
 # LLAMA_API struct llama_context * llama_new_context_with_model(
 #                  struct llama_model * model,
@@ -735,10 +695,8 @@ def llama_new_context_with_model(
 ) -> llama_context_p:
     return _lib.llama_new_context_with_model(model, params)
 
-
 _lib.llama_new_context_with_model.argtypes = [llama_model_p, llama_context_params]
 _lib.llama_new_context_with_model.restype = llama_context_p
-
 
 # // Frees all allocated memory
 # LLAMA_API void llama_free(struct llama_context * ctx);
@@ -746,143 +704,112 @@ def llama_free(ctx: llama_context_p):
     """Frees all allocated memory"""
     return _lib.llama_free(ctx)
 
-
 _lib.llama_free.argtypes = [llama_context_p]
 _lib.llama_free.restype = None
-
 
 # LLAMA_API int64_t llama_time_us(void);
 def llama_time_us() -> int:
     return _lib.llama_time_us()
 
-
 _lib.llama_time_us.argtypes = []
 _lib.llama_time_us.restype = ctypes.c_int64
-
 
 # LLAMA_API size_t llama_max_devices(void);
 def llama_max_devices() -> int:
     return _lib.llama_max_devices()
 
-
 _lib.llama_max_devices.argtypes = []
 _lib.llama_max_devices.restype = ctypes.c_size_t
-
 
 # LLAMA_API bool llama_supports_mmap       (void);
 def llama_supports_mmap() -> bool:
     return _lib.llama_supports_mmap()
 
-
 _lib.llama_supports_mmap.argtypes = []
 _lib.llama_supports_mmap.restype = c_bool
-
 
 # LLAMA_API bool llama_supports_mlock      (void);
 def llama_supports_mlock() -> bool:
     return _lib.llama_supports_mlock()
 
-
 _lib.llama_supports_mlock.argtypes = []
 _lib.llama_supports_mlock.restype = c_bool
-
 
 # LLAMA_API bool llama_supports_gpu_offload(void);
 def llama_supports_gpu_offload() -> bool:
     return _lib.llama_supports_gpu_offload()
 
-
 _lib.llama_supports_gpu_offload.argtypes = []
 _lib.llama_supports_gpu_offload.restype = c_bool
-
 
 # LLAMA_API DEPRECATED(bool llama_mmap_supported (void), "use llama_supports_mmap() instead");
 def llama_mmap_supported() -> bool:
     return _lib.llama_mmap_supported()
 
-
 _lib.llama_mmap_supported.argtypes = []
 _lib.llama_mmap_supported.restype = c_bool
-
 
 # LLAMA_API DEPRECATED(bool llama_mlock_supported(void), "use llama_supports_mlock() instead");
 def llama_mlock_supported() -> bool:
     return _lib.llama_mlock_supported()
 
-
 _lib.llama_mlock_supported.argtypes = []
 _lib.llama_mlock_supported.restype = c_bool
-
 
 # LLAMA_API const struct llama_model * llama_get_model(const struct llama_context * ctx);
 def llama_get_model(ctx: llama_context_p) -> llama_model_p:
     return _lib.llama_get_model(ctx)
 
-
 _lib.llama_get_model.argtypes = [llama_context_p]
 _lib.llama_get_model.restype = llama_model_p
-
 
 # LLAMA_API uint32_t llama_n_ctx      (const struct llama_context * ctx);
 def llama_n_ctx(ctx: llama_context_p) -> int:
     return _lib.llama_n_ctx(ctx)
 
-
 _lib.llama_n_ctx.argtypes = [llama_context_p]
 _lib.llama_n_ctx.restype = c_uint32
-
 
 # LLAMA_API uint32_t llama_n_batch    (const struct llama_context * ctx);
 def llama_n_batch(ctx: llama_context_p) -> int:
     return _lib.llama_n_batch(ctx)
 
-
 _lib.llama_n_batch.argtypes = [llama_context_p]
 _lib.llama_n_batch.restype = c_uint32
-
 
 # LLAMA_API enum llama_vocab_type llama_vocab_type(const struct llama_model * model);
 def llama_vocab_type(model: llama_model_p) -> int:
     return _lib.llama_vocab_type(model)
 
-
 _lib.llama_vocab_type.argtypes = [llama_model_p]
 _lib.llama_vocab_type.restype = c_int
-
 
 # LLAMA_API int32_t llama_n_vocab    (const struct llama_model * model);
 def llama_n_vocab(model: llama_model_p) -> int:
     return _lib.llama_n_vocab(model)
 
-
 _lib.llama_n_vocab.argtypes = [llama_model_p]
 _lib.llama_n_vocab.restype = c_int32
-
 
 # LLAMA_API int32_t llama_n_ctx_train(const struct llama_model * model);
 def llama_n_ctx_train(model: llama_model_p) -> int:
     return _lib.llama_n_ctx_train(model)
 
-
 _lib.llama_n_ctx_train.argtypes = [llama_model_p]
 _lib.llama_n_ctx_train.restype = c_int32
-
 
 # LLAMA_API int32_t llama_n_embd     (const struct llama_model * model);
 def llama_n_embd(model: llama_model_p) -> int:
     return _lib.llama_n_embd(model)
 
-
 _lib.llama_n_embd.argtypes = [llama_model_p]
 _lib.llama_n_embd.restype = c_int32
-
 
 # // Get the model's RoPE frequency scaling factor
 # LLAMA_API float llama_rope_freq_scale_train(const struct llama_model * model);
 def llama_rope_freq_scale_train(model: llama_model_p) -> float:
     """Get the model's RoPE frequency scaling factor"""
     return _lib.llama_rope_freq_scale_train(model)
-
 
 _lib.llama_rope_freq_scale_train.argtypes = [llama_model_p]
 _lib.llama_rope_freq_scale_train.restype = c_float
@@ -892,7 +819,6 @@ _lib.llama_rope_freq_scale_train.restype = c_float
 # // - The output string is always null-terminated and cleared on failure
 # // - GGUF array values are not supported by these functions
 
-
 # // Get metadata value as a string by key name
 # LLAMA_API int32_t llama_model_meta_val_str(const struct llama_model * model, const char * key, char * buf, size_t buf_size);
 def llama_model_meta_val_str(
@@ -901,10 +827,8 @@ def llama_model_meta_val_str(
     """Get metadata value as a string by key name"""
     return _lib.llama_model_meta_val_str(model, key, buf, buf_size)
 
-
 _lib.llama_model_meta_val_str.argtypes = [llama_model_p, c_char_p, c_char_p, c_size_t]
 _lib.llama_model_meta_val_str.restype = c_int32
-
 
 # // Get the number of metadata key/value pairs
 # LLAMA_API int32_t llama_model_meta_count(const struct llama_model * model);
@@ -912,10 +836,8 @@ def llama_model_meta_count(model: llama_model_p) -> int:
     """Get the number of metadata key/value pairs"""
     return _lib.llama_model_meta_count(model)
 
-
 _lib.llama_model_meta_count.argtypes = [llama_model_p]
 _lib.llama_model_meta_count.restype = c_int32
-
 
 # // Get metadata key name by index
 # LLAMA_API int32_t llama_model_meta_key_by_index(const struct llama_model * model, int32_t i, char * buf, size_t buf_size);
@@ -925,7 +847,6 @@ def llama_model_meta_key_by_index(
     """Get metadata key name by index"""
     return _lib.llama_model_meta_key_by_index(model, i, buf, buf_size)
 
-
 _lib.llama_model_meta_key_by_index.argtypes = [
     llama_model_p,
     c_int32,
@@ -933,7 +854,6 @@ _lib.llama_model_meta_key_by_index.argtypes = [
     c_size_t,
 ]
 _lib.llama_model_meta_key_by_index.restype = c_int32
-
 
 # // Get metadata value as a string by index
 # LLAMA_API int32_t llama_model_meta_val_str_by_index(const struct llama_model * model, int32_t i, char * buf, size_t buf_size);
@@ -943,7 +863,6 @@ def llama_model_meta_val_str_by_index(
     """Get metadata value as a string by index"""
     return _lib.llama_model_meta_val_str_by_index(model, i, buf, buf_size)
 
-
 _lib.llama_model_meta_val_str_by_index.argtypes = [
     llama_model_p,
     c_int32,
@@ -951,7 +870,6 @@ _lib.llama_model_meta_val_str_by_index.argtypes = [
     c_size_t,
 ]
 _lib.llama_model_meta_val_str_by_index.restype = c_int32
-
 
 # // Get a string describing the model type
 # LLAMA_API int32_t llama_model_desc(const struct llama_model * model, char * buf, size_t buf_size);
@@ -961,10 +879,8 @@ def llama_model_desc(
     """Get a string describing the model type"""
     return _lib.llama_model_desc(model, buf, buf_size)
 
-
 _lib.llama_model_desc.argtypes = [llama_model_p, c_char_p, c_size_t]
 _lib.llama_model_desc.restype = c_int32
-
 
 # // Returns the total size of all the tensors in the model in bytes
 # LLAMA_API uint64_t llama_model_size(const struct llama_model * model);
@@ -972,10 +888,8 @@ def llama_model_size(model: llama_model_p) -> int:
     """Returns the total size of all the tensors in the model in bytes"""
     return _lib.llama_model_size(model)
 
-
 _lib.llama_model_size.argtypes = [llama_model_p]
 _lib.llama_model_size.restype = ctypes.c_uint64
-
 
 # // Returns the total number of parameters in the model
 # LLAMA_API uint64_t llama_model_n_params(const struct llama_model * model);
@@ -983,10 +897,8 @@ def llama_model_n_params(model: llama_model_p) -> int:
     """Returns the total number of parameters in the model"""
     return _lib.llama_model_n_params(model)
 
-
 _lib.llama_model_n_params.argtypes = [llama_model_p]
 _lib.llama_model_n_params.restype = ctypes.c_uint64
-
 
 # // Get a llama model tensor
 # LLAMA_API struct ggml_tensor * llama_get_model_tensor(struct llama_model * model, const char * name);
@@ -996,10 +908,8 @@ def llama_get_model_tensor(
     """Get a llama model tensor"""
     return _lib.llama_get_model_tensor(model, name)
 
-
 _lib.llama_get_model_tensor.argtypes = [llama_model_p, c_char_p]
 _lib.llama_get_model_tensor.restype = c_void_p
-
 
 # // Returns 0 on success
 # LLAMA_API uint32_t llama_model_quantize(
@@ -1014,14 +924,12 @@ def llama_model_quantize(
     """Returns 0 on success"""
     return _lib.llama_model_quantize(fname_inp, fname_out, params)
 
-
 _lib.llama_model_quantize.argtypes = [
     c_char_p,
     c_char_p,
     POINTER(llama_model_quantize_params),
 ]
 _lib.llama_model_quantize.restype = c_uint32
-
 
 # // Apply a LoRA adapter to a loaded model
 # // path_base_model is the path to a higher quality model to use as a base for
@@ -1053,7 +961,6 @@ def llama_apply_lora_from_file(
         ctx, path_lora, scale, path_base_model, n_threads
     )
 
-
 _lib.llama_apply_lora_from_file.argtypes = [
     llama_context_p,
     c_char_p,
@@ -1062,7 +969,6 @@ _lib.llama_apply_lora_from_file.argtypes = [
     c_int32,
 ]
 _lib.llama_apply_lora_from_file.restype = c_int32
-
 
 # LLAMA_API int32_t llama_model_apply_lora_from_file(
 #         const struct llama_model * model,
@@ -1081,7 +987,6 @@ def llama_model_apply_lora_from_file(
         model, path_lora, scale, path_base_model, n_threads
     )
 
-
 _lib.llama_model_apply_lora_from_file.argtypes = [
     llama_model_p,
     c_char_p,
@@ -1094,7 +999,6 @@ _lib.llama_model_apply_lora_from_file.restype = c_int32
 # //
 # // KV cache
 # //
-
 
 # // Information associated with an individual cell in the KV cache view.
 # struct llama_kv_cache_view_cell {
@@ -1150,9 +1054,7 @@ class llama_kv_cache_view(Structure):
         ("cells_sequences", POINTER(llama_seq_id)),
     ]
 
-
 llama_kv_cache_view_p = POINTER(llama_kv_cache_view)
-
 
 # // Create an empty KV cache view. (use only for debugging purposes)
 # LLAMA_API struct llama_kv_cache_view llama_kv_cache_view_init(const struct llama_context * ctx, int32_t n_max_seq);
@@ -1162,10 +1064,8 @@ def llama_kv_cache_view_init(
     """Create an empty KV cache view. (use only for debugging purposes)"""
     return _lib.llama_kv_cache_view_init(ctx, n_max_seq)
 
-
 _lib.llama_kv_cache_view_init.argtypes = [llama_context_p, c_int32]
 _lib.llama_kv_cache_view_init.restype = llama_kv_cache_view
-
 
 # // Free a KV cache view. (use only for debugging purposes)
 # LLAMA_API void llama_kv_cache_view_free(struct llama_kv_cache_view * view);
@@ -1173,10 +1073,8 @@ def llama_kv_cache_view_free(view: "ctypes.pointer[llama_kv_cache_view]"):  # ty
     """Free a KV cache view. (use only for debugging purposes)"""
     return _lib.llama_kv_cache_view_free(view)
 
-
 _lib.llama_kv_cache_view_free.argtypes = [llama_kv_cache_view_p]
 _lib.llama_kv_cache_view_free.restype = None
-
 
 # // Update the KV cache view structure with the current state of the KV cache. (use only for debugging purposes)
 # LLAMA_API void llama_kv_cache_view_update(const struct llama_context * ctx, struct llama_kv_cache_view * view);
@@ -1184,10 +1082,8 @@ def llama_kv_cache_view_update(ctx: llama_context_p, view: "ctypes.pointer[llama
     """Update the KV cache view structure with the current state of the KV cache. (use only for debugging purposes)"""
     return _lib.llama_kv_cache_view_update(ctx, view)
 
-
 _lib.llama_kv_cache_view_update.argtypes = [llama_context_p, llama_kv_cache_view_p]
 _lib.llama_kv_cache_view_update.restype = None
-
 
 # // Returns the number of tokens in the KV cache (slow, use only for debug)
 # // If a KV cell has multiple sequences assigned to it, it will be counted multiple times
@@ -1198,10 +1094,8 @@ def llama_get_kv_cache_token_count(ctx: llama_context_p) -> int:
     """
     return _lib.llama_get_kv_cache_token_count(ctx)
 
-
 _lib.llama_get_kv_cache_token_count.argtypes = [llama_context_p]
 _lib.llama_get_kv_cache_token_count.restype = c_int32
-
 
 # // Returns the number of used KV cells (i.e. have at least one sequence assigned to them)
 # LLAMA_API int32_t llama_get_kv_cache_used_cells(const struct llama_context * ctx);
@@ -1209,10 +1103,8 @@ def llama_get_kv_cache_used_cells(ctx: llama_context_p) -> int:
     """Returns the number of used KV cells (i.e. have at least one sequence assigned to them)"""
     return _lib.llama_get_kv_cache_used_cells(ctx)
 
-
 _lib.llama_get_kv_cache_used_cells.argtypes = [llama_context_p]
 _lib.llama_get_kv_cache_used_cells.restype = c_int32
-
 
 # // Clear the KV cache
 # LLAMA_API void llama_kv_cache_clear(
@@ -1221,10 +1113,8 @@ def llama_kv_cache_clear(ctx: llama_context_p):
     """Clear the KV cache"""
     return _lib.llama_kv_cache_clear(ctx)
 
-
 _lib.llama_kv_cache_clear.argtypes = [llama_context_p]
 _lib.llama_kv_cache_clear.restype = None
-
 
 # // Removes all tokens that belong to the specified sequence and have positions in [p0, p1)
 # // seq_id < 0 : match any sequence
@@ -1247,7 +1137,6 @@ def llama_kv_cache_seq_rm(
     p1 < 0     : [p0, inf)"""
     return _lib.llama_kv_cache_seq_rm(ctx, seq_id, p0, p1)
 
-
 _lib.llama_kv_cache_seq_rm.argtypes = [
     llama_context_p,
     llama_seq_id,
@@ -1255,7 +1144,6 @@ _lib.llama_kv_cache_seq_rm.argtypes = [
     llama_pos,
 ]
 _lib.llama_kv_cache_seq_rm.restype = None
-
 
 # // Copy all tokens that belong to the specified sequence to another sequence
 # // Note that this does not allocate extra KV cache memory - it simply assigns the tokens to the new sequence
@@ -1280,7 +1168,6 @@ def llama_kv_cache_seq_cp(
     p1 < 0 : [p0, inf)"""
     return _lib.llama_kv_cache_seq_cp(ctx, seq_id_src, seq_id_dst, p0, p1)
 
-
 _lib.llama_kv_cache_seq_cp.argtypes = [
     llama_context_p,
     llama_seq_id,
@@ -1289,7 +1176,6 @@ _lib.llama_kv_cache_seq_cp.argtypes = [
     llama_pos,
 ]
 _lib.llama_kv_cache_seq_cp.restype = None
-
 
 # // Removes all tokens that do not belong to the specified sequence
 # LLAMA_API void llama_kv_cache_seq_keep(
@@ -2347,7 +2233,6 @@ _lib.llama_sample_token_mirostat.argtypes = [
 ]
 _lib.llama_sample_token_mirostat.restype = llama_token
 
-
 # /// @details Mirostat 2.0 algorithm described in the paper https://arxiv.org/abs/2007.14966. Uses tokens instead of words.
 # /// @param candidates A vector of `llama_token_data` containing the candidate tokens, their probabilities (p), and log-odds (logit) for the current position in the generated text.
 # /// @param tau  The target cross-entropy (or surprise) value you want to achieve for the generated text. A higher value corresponds to more surprising or less predictable text, while a lower value corresponds to less surprising or more predictable text.
@@ -2376,7 +2261,6 @@ def llama_sample_token_mirostat_v2(
     """
     return _lib.llama_sample_token_mirostat_v2(ctx, candidates, tau, eta, mu)
 
-
 _lib.llama_sample_token_mirostat_v2.argtypes = [
     llama_context_p,
     llama_token_data_array_p,
@@ -2385,7 +2269,6 @@ _lib.llama_sample_token_mirostat_v2.argtypes = [
     c_float_p,
 ]
 _lib.llama_sample_token_mirostat_v2.restype = llama_token
-
 
 # /// @details Selects the token with the highest probability.
 # ///          Does not compute the token probabilities. Use llama_sample_softmax() instead.
@@ -2399,13 +2282,11 @@ def llama_sample_token_greedy(
     """Selects the token with the highest probability."""
     return _lib.llama_sample_token_greedy(ctx, candidates)
 
-
 _lib.llama_sample_token_greedy.argtypes = [
     llama_context_p,
     llama_token_data_array_p,
 ]
 _lib.llama_sample_token_greedy.restype = llama_token
-
 
 # /// @details Randomly selects a token from the candidates based on their probabilities.
 # LLAMA_API llama_token llama_sample_token(
@@ -2418,13 +2299,11 @@ def llama_sample_token(
     """Randomly selects a token from the candidates based on their probabilities."""
     return _lib.llama_sample_token(ctx, candidates)
 
-
 _lib.llama_sample_token.argtypes = [
     llama_context_p,
     llama_token_data_array_p,
 ]
 _lib.llama_sample_token.restype = llama_token
-
 
 # /// @details Accepts the sampled token into the grammar
 # LLAMA_API void llama_grammar_accept_token(
@@ -2439,7 +2318,6 @@ def llama_grammar_accept_token(
     """Accepts the sampled token into the grammar"""
     _lib.llama_grammar_accept_token(ctx, grammar, token)
 
-
 _lib.llama_grammar_accept_token.argtypes = [
     llama_context_p,
     llama_grammar_p,
@@ -2447,14 +2325,12 @@ _lib.llama_grammar_accept_token.argtypes = [
 ]
 _lib.llama_grammar_accept_token.restype = None
 
-
 # //
 # // Beam search
 # //
 
 # struct llama_beam_view {
 #     const llama_token * tokens;
-
 
 #     size_t n_tokens;
 #     float  p;        // Cumulative beam probability (renormalized relative to all beams)
@@ -2467,7 +2343,6 @@ class llama_beam_view(ctypes.Structure):
         ("p", c_float),
         ("eob", c_bool),
     ]
-
 
 # // Passed to beam_search_callback function.
 # // Whenever 0 < common_prefix_length, this number of tokens should be copied from any of the beams
@@ -2487,13 +2362,11 @@ class llama_beams_state(ctypes.Structure):
         ("last_call", c_bool),
     ]
 
-
 # // Type of pointer to the beam_search_callback function.
 # // void* callback_data is any custom data passed to llama_beam_search, that is subsequently
 # // passed back to beam_search_callback. This avoids having to use global variables in the callback.
 # typedef void (*llama_beam_search_callback_fn_t)(void * callback_data, struct llama_beams_state);
 llama_beam_search_callback_fn_t = ctypes.CFUNCTYPE(None, c_void_p, llama_beams_state)
-
 
 # /// @details Deterministically returns entire sentence constructed by a beam search.
 # /// @param ctx Pointer to the llama_context.
@@ -2522,7 +2395,6 @@ def llama_beam_search(
         ctx, callback, callback_data, n_beams, n_past, n_predict
     )
 
-
 _lib.llama_beam_search.argtypes = [
     llama_context_p,
     llama_beam_search_callback_fn_t,
@@ -2533,39 +2405,31 @@ _lib.llama_beam_search.argtypes = [
 ]
 _lib.llama_beam_search.restype = None
 
-
 # Performance information
-
 
 # LLAMA_API struct llama_timings llama_get_timings(struct llama_context * ctx);
 def llama_get_timings(ctx: llama_context_p) -> llama_timings:
     """Get performance information"""
     return _lib.llama_get_timings(ctx)
 
-
 _lib.llama_get_timings.argtypes = [llama_context_p]
 _lib.llama_get_timings.restype = llama_timings
-
 
 # LLAMA_API void llama_print_timings(struct llama_context * ctx);
 def llama_print_timings(ctx: llama_context_p):
     """Print performance information"""
     _lib.llama_print_timings(ctx)
 
-
 _lib.llama_print_timings.argtypes = [llama_context_p]
 _lib.llama_print_timings.restype = None
-
 
 # LLAMA_API void llama_reset_timings(struct llama_context * ctx);
 def llama_reset_timings(ctx: llama_context_p):
     """Reset performance information"""
     _lib.llama_reset_timings(ctx)
 
-
 _lib.llama_reset_timings.argtypes = [llama_context_p]
 _lib.llama_reset_timings.restype = None
-
 
 # Print system information
 # LLAMA_API const char * llama_print_system_info(void);
@@ -2573,10 +2437,8 @@ def llama_print_system_info() -> bytes:
     """Print system information"""
     return _lib.llama_print_system_info()
 
-
 _lib.llama_print_system_info.argtypes = []
 _lib.llama_print_system_info.restype = c_char_p
-
 
 # NOTE: THIS IS CURRENTLY BROKEN AS ggml_log_callback IS NOT EXPOSED IN LLAMA.H
 # // Set callback for all future logging events.
@@ -2590,15 +2452,12 @@ def llama_log_set(
     If this is not called, or NULL is supplied, everything is output on stderr."""
     return _lib.llama_log_set(log_callback, user_data)
 
-
 _lib.llama_log_set.argtypes = [ctypes.c_void_p, c_void_p]
 _lib.llama_log_set.restype = None
-
 
 # LLAMA_API void llama_dump_timing_info_yaml(FILE * stream, const struct llama_context * ctx);
 def llama_dump_timing_info_yaml(stream: ctypes.c_void_p, ctx: llama_context_p):
     return _lib.llama_dump_timing_info_yaml(stream, ctx)
-
 
 _lib.llama_dump_timing_info_yaml.argtypes = [ctypes.c_void_p, llama_context_p]
 _lib.llama_dump_timing_info_yaml.restype = None
