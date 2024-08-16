@@ -1,6 +1,5 @@
-import sys
-import os
-import ctypes
+import sys, os, ctypes
+
 from ctypes import (
     c_bool,
     c_char_p,
@@ -75,13 +74,11 @@ def _load_shared_library(lib_base_name: str):
         f"Shared library with base name '{lib_base_name}' not found"
     )
 
-
 # Specify the base name of the shared library to load
 _libllava_base_name = "llava"
 
 # Load the library
 _libllava = _load_shared_library(_libllava_base_name)
-
 
 ################################################
 # llava.h
@@ -140,11 +137,9 @@ def llava_eval_image_embed(ctx_llama: llama_cpp.llama_context_p, embed: "_Pointe
 _libllava.llava_eval_image_embed.argtypes = [llama_cpp.llama_context_p, POINTER(llava_image_embed), c_int, POINTER(c_int)]
 _libllava.llava_eval_image_embed.restype = c_bool
 
-
 ################################################
 # clip.h
 ################################################
-
 
 # struct clip_vision_hparams {
 #     int32_t image_size;
