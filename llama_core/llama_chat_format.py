@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import os
-import json
-import ctypes
-import dataclasses
+import os, json, ctypes, dataclasses
+
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union, Protocol
 
 import jinja2
@@ -25,7 +23,6 @@ CHATML_EOS_TOKEN = "<|im_end|>"
 MISTRAL_INSTRUCT_CHAT_TEMPLATE = "{{ bos_token }}{% for message in messages %}{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if message['role'] == 'user' %}{{ '[INST] ' + message['content'] + ' [/INST]' }}{% elif message['role'] == 'assistant' %}{{ message['content'] + eos_token + ' ' }}{% else %}{{ raise_exception('Only user and assistant roles are supported!') }}{% endif %}{% endfor %}"
 MISTRAL_INSTRUCT_BOS_TOKEN = "<s>"
 MISTRAL_INSTRUCT_EOS_TOKEN = "</s>"
-
 
 ### Chat Completion Handler ###
 
