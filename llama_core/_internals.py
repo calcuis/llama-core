@@ -17,9 +17,7 @@ from .llama_grammar import LlamaGrammar
 
 import llama_core.llama_cpp as llama_cpp
 
-
 # Python wrappers over llama.h structs
-
 
 class _LlamaModel:
     """Intermediate Python wrapper for a llama.cpp llama_model.
@@ -227,7 +225,6 @@ class _LlamaModel:
     def default_params():
         """Get the default llama_model_params."""
         return llama_cpp.llama_model_default_params()
-
 
 class _LlamaContext:
     """Intermediate Python wrapper for a llama.cpp llama_context.
@@ -604,14 +601,12 @@ def _detokenize_spm(model: _LlamaModel, tokens: List[int]) -> str:
         result += piece
     return result
 
-
 def _detokenize_bpe(model: _LlamaModel, tokens: List[int]) -> str:
     result = ""
     for token in tokens:
         piece = _token_to_piece(model, token)
         result += piece
     return result
-
 
 def _should_add_bos(model: _LlamaModel) -> bool:
     assert model.model is not None
@@ -621,9 +616,7 @@ def _should_add_bos(model: _LlamaModel) -> bool:
     else:
         return llama_cpp.llama_vocab_type(model.model) == llama_cpp.LLAMA_VOCAB_TYPE_SPM
 
-
 # Python wrappers over common/sampling structs
-
 
 @dataclass
 class _LlamaSamplingParams:
@@ -650,7 +643,6 @@ class _LlamaSamplingParams:
     cfg_scale: float = 1.00
 
     logit_bias: dict[int, float] = field(default_factory=dict)
-
 
 @dataclass
 class _LlamaSamplingContext:
