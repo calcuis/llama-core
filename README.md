@@ -52,7 +52,7 @@ In mac, xcode command line tools were recommended by Apple for dealing all codin
 ```
 pip3 install llama_core-(version).tar.gz
 ```
-#### high (just a little bit better) performance (if you have bad temper/impatient)
+#### high (just a little bit better) performance (if you have bad temper/impatient🐷💰)
 #### example setup for metal - faster
 Metal (M1/M2/M3 - Apple)
 ```
