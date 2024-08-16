@@ -12,7 +12,7 @@ import numpy as np
 
 import logging
 logger = logging.getLogger(__name__)
-# ##########################################################################################################
+
 class LazyMeta(ABCMeta):
 
     def __new__(cls, name: str, bases: tuple[type, ...], namespace: dict[str, Any], **kwargs):
@@ -235,7 +235,6 @@ class LazyNumpyTensor(LazyBase):
         return eager.tofile(*args, **kwargs)
 
     # TODO: __array_function__
-# ##########################################################################################################
 
 def quant_shape_to_byte_shape(shape: Sequence[int], quant_type: GGMLQuantizationType):
     block_size, type_size = GGML_QUANT_SIZES[quant_type]
