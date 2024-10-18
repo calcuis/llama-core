@@ -28,7 +28,6 @@ if gguf_files:
             from rich.progress import Progress
             with Progress(transient=True) as progress:
                 task = progress.add_task("Processing", total=None)
-                # print("Processing...")
                 output = llm("Q: "+ask, max_tokens=2048, echo=True)
                 answer = output['choices'][0]['text']
                 print(answer+"\n")
