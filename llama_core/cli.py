@@ -1,5 +1,13 @@
 import os
 
+def clear():
+    # for windows
+    if os.name == 'nt':
+        _ = os.system('cls')
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = os.system('clear')
+
 gguf_files = [file for file in os.listdir() if file.endswith('.gguf')]
 
 if gguf_files:
@@ -19,17 +27,20 @@ if gguf_files:
         from llama_core import Llama
         llm = Llama(model_path=ModelPath)
 
+        clear()
         while True:
             ask = input("Enter a Question (Q for quit): ")
-
             if ask.lower() == 'q':
                 break
-
-            from rich.progress import Progress
+            clear()
+            from llama_core.rich.progress import Progress
             with Progress(transient=True) as progress:
                 task = progress.add_task("Processing", total=None)
                 output = llm("Q: "+ask, max_tokens=2048, echo=True)
                 answer = output['choices'][0]['text']
+                token_info = output["usage"]["total_tokens"]
+                clear()
+                print("Raw input: "+ask+" (token used: "+str(token_info)+")\n")
                 print(answer+"\n")
 
     except (ValueError, IndexError):
