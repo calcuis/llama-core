@@ -36,12 +36,11 @@ if gguf_files:
 
         def submit(i):
             root.title("Processing...")
-            
-            from rich.console import Console
+            from llama_core.rich.console import Console
             console = Console()
             console.print("*note: [green]it might show: (Not Responding) and/or keep spinning; but running in background still; please be patient.")
             
-            from rich.progress import Progress
+            from llama_core.rich.progress import Progress
             with Progress(transient=True) as progress:
                 task = progress.add_task("Processing", total=None)
                 output = llm("Q: "+str(i.get()), max_tokens=2048, echo=True)

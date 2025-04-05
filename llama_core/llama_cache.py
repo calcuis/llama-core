@@ -7,10 +7,12 @@ from typing import (
 )
 from collections import OrderedDict
 
-import llama_core.diskcache
+import diskcache
 
 import llama_core.llama
+
 from .llama_types import *
+
 
 class BaseLlamaCache(ABC):
     """Base cache class for a llama.cpp model."""
@@ -38,7 +40,9 @@ class BaseLlamaCache(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def __setitem__(self, key: Sequence[int], value: "llama_core.llama.LlamaState") -> None:
+    def __setitem__(
+        self, key: Sequence[int], value: "llama_core.llama.LlamaState"
+    ) -> None:
         raise NotImplementedError
 
 
@@ -48,7 +52,9 @@ class LlamaRAMCache(BaseLlamaCache):
     def __init__(self, capacity_bytes: int = (2 << 30)):
         super().__init__(capacity_bytes)
         self.capacity_bytes = capacity_bytes
-        self.cache_state: OrderedDict[Tuple[int, ...], "llama_core.llama.LlamaState"] = OrderedDict()
+        self.cache_state: OrderedDict[
+            Tuple[int, ...], "llama_core.llama.LlamaState"
+        ] = OrderedDict()
 
     @property
     def cache_size(self):
@@ -61,7 +67,8 @@ class LlamaRAMCache(BaseLlamaCache):
         min_len = 0
         min_key = None
         keys = (
-            (k, llama_core.llama.Llama.longest_token_prefix(k, key)) for k in self.cache_state.keys()
+            (k, llama_core.llama.Llama.longest_token_prefix(k, key))
+            for k in self.cache_state.keys()
         )
         for k, prefix_len in keys:
             if prefix_len > min_len:
@@ -89,8 +96,10 @@ class LlamaRAMCache(BaseLlamaCache):
         while self.cache_size > self.capacity_bytes and len(self.cache_state) > 0:
             self.cache_state.popitem(last=False)
 
+
 # Alias for backwards compatibility
 LlamaCache = LlamaRAMCache
+
 
 class LlamaDiskCache(BaseLlamaCache):
     """Cache for a llama.cpp model using disk."""
@@ -99,7 +108,7 @@ class LlamaDiskCache(BaseLlamaCache):
         self, cache_dir: str = ".cache/llama_cache", capacity_bytes: int = (2 << 30)
     ):
         super().__init__(capacity_bytes)
-        self.cache = llama_core.diskcache.Cache(cache_dir)
+        self.cache = diskcache.Cache(cache_dir)
 
     @property
     def cache_size(self):

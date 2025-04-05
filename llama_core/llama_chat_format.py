@@ -1,6 +1,12 @@
 from __future__ import annotations
 
-import os, sys, json, ctypes, dataclasses, random, string
+import os
+import sys
+import json
+import ctypes
+import dataclasses
+import random
+import string
 
 from contextlib import ExitStack
 from typing import (
@@ -2829,24 +2835,25 @@ class Llava15ChatHandler:
                     )
                 llama.eval(tokens)
             else:
-                image_bytes = self.load_image(value)
-                embed = self._embed_image_bytes(image_bytes, llama.context_params.n_threads_batch)
-                if llama.n_tokens + embed.contents.n_image_pos > llama.n_ctx():
-                    raise ValueError(
-                        f"Prompt exceeds n_ctx: {llama.n_tokens + embed.contents.n_image_pos} > {llama.n_ctx()}"
-                    )
-                n_past = ctypes.c_int(llama.n_tokens)
-                n_past_p = ctypes.pointer(n_past)
-                with suppress_stdout_stderr(disable=self.verbose):
-                    self._llava_cpp.llava_eval_image_embed(
-                        llama.ctx,
-                        embed,
-                        llama.n_batch,
-                        n_past_p,
-                    )
-                # Required to avoid issues with hf tokenizer
-                llama.input_ids[llama.n_tokens : n_past.value] = -1
-                llama.n_tokens = n_past.value
+                self.eval_image(llama, value)
+            #     image_bytes = self.load_image(value)
+            #     embed = self._embed_image_bytes(image_bytes, llama.context_params.n_threads_batch)
+            #     if llama.n_tokens + embed.contents.n_image_pos > llama.n_ctx():
+            #         raise ValueError(
+            #             f"Prompt exceeds n_ctx: {llama.n_tokens + embed.contents.n_image_pos} > {llama.n_ctx()}"
+            #         )
+            #     n_past = ctypes.c_int(llama.n_tokens)
+            #     n_past_p = ctypes.pointer(n_past)
+            #     with suppress_stdout_stderr(disable=self.verbose):
+            #         self._llava_cpp.llava_eval_image_embed(
+            #             llama.ctx,
+            #             embed,
+            #             llama.n_batch,
+            #             n_past_p,
+            #         )
+            #     # Required to avoid issues with hf tokenizer
+            #     llama.input_ids[llama.n_tokens : n_past.value] = -1
+            #     llama.n_tokens = n_past.value
 
         # Get prompt tokens to avoid a cache miss
         prompt = llama.input_ids[: llama.n_tokens].tolist()
@@ -2931,6 +2938,26 @@ class Llava15ChatHandler:
                 tool_name, completion_or_chunks, stream
             )
         return _convert_completion_to_chat(completion_or_chunks, stream=stream)
+
+    def eval_image(self, llama: llama.Llama, image_url: str):
+        image_bytes = self.load_image(image_url)
+        embed = self._embed_image_bytes(image_bytes, llama.context_params.n_threads_batch)
+        if llama.n_tokens + embed.contents.n_image_pos > llama.n_ctx():
+            raise ValueError(
+                f"Prompt exceeds n_ctx: {llama.n_tokens + embed.contents.n_image_pos} > {llama.n_ctx()}"
+            )
+        n_past = ctypes.c_int(llama.n_tokens)
+        n_past_p = ctypes.pointer(n_past)
+        with suppress_stdout_stderr(disable=self.verbose):
+            self._llava_cpp.llava_eval_image_embed(
+                llama.ctx,
+                embed,
+                llama.n_batch,
+                n_past_p,
+            )
+        # Required to avoid issues with hf tokenizer
+        llama.input_ids[llama.n_tokens : n_past.value] = -1
+        llama.n_tokens = n_past.value
 
     @staticmethod
     def _load_image(image_url: str) -> bytes:
@@ -3401,7 +3428,8 @@ class Gemma3ChatHandler(Llava15ChatHandler):
         "{{ message['content'] | trim }}"
         "{%- elif message['content'] is iterable -%}"
         "{%- for item in message['content'] -%}"
-        "{%- if item['type'] == 'image' -%}"
+        # "{%- if item['type'] == 'image' -%}"
+        "{%- if item['type'] == 'image_url' -%}"
         "{{ '<start_of_image>' }}"
         "{%- elif item['type'] == 'text' -%}"
         "{{ item['text'] | trim }}"
@@ -3430,10 +3458,14 @@ class Gemma3ChatHandler(Llava15ChatHandler):
             if pos != -1:
                 assert len(copied_urls) > 0
                 if pos > 0:
-                    split_text += [("text", remaining[:pos])]
-                split_text += [("text", "\n\n<start_of_image>")]
-                split_text += [("image_url", copied_urls.pop(0))]
-                split_text += [("text", "<end_of_image>\n\n")]
+                #     split_text += [("text", remaining[:pos])]
+                # split_text += [("text", "\n\n<start_of_image>")]
+                # split_text += [("image_url", copied_urls.pop(0))]
+                # split_text += [("text", "<end_of_image>\n\n")]
+                    split_text.append(("text", remaining[:pos]))
+                split_text.append(("text", "\n\n<start_of_image>"))
+                split_text.append(("image_url", copied_urls.pop(0)))
+                split_text.append(("text", "<end_of_image>\n\n"))
                 remaining = remaining[pos + len(image_placeholder):]
             else:
                 assert len(copied_urls) == 0
@@ -3441,20 +3473,80 @@ class Gemma3ChatHandler(Llava15ChatHandler):
                 remaining = ""
         return split_text
 
-    @staticmethod
-    def get_image_urls(messages: List[llama_types.ChatCompletionRequestMessage]):
-        image_urls: List[str] = []
-        for message in messages:
-            if message["role"] == "user":
-                if message.get("content") is None:
-                    continue
-                for content in message["content"]:
-                    if isinstance(content, dict) and content.get("type") == "image":
-                        if isinstance(content.get("image"), dict) and isinstance(content["image"].get("url"), str):
-                            image_urls.append(content["image"]["url"])
-                        elif isinstance(content.get("url"), str):
-                            image_urls.append(content["url"])
-        return image_urls
+    # @staticmethod
+    # def get_image_urls(messages: List[llama_types.ChatCompletionRequestMessage]):
+    #     image_urls: List[str] = []
+    #     for message in messages:
+    #         if message["role"] == "user":
+    #             if message.get("content") is None:
+    #                 continue
+    #             for content in message["content"]:
+    #                 if isinstance(content, dict) and content.get("type") == "image":
+    #                     if isinstance(content.get("image"), dict) and isinstance(content["image"].get("url"), str):
+    #                         image_urls.append(content["image"]["url"])
+    #                     elif isinstance(content.get("url"), str):
+    #                         image_urls.append(content["url"])
+    #     return image_urls
+
+    def eval_image(self, llama: llama.Llama, image_url: str):
+        import llama_core
+
+        n_tokens = 256
+        if llama.n_tokens + n_tokens > llama.n_ctx():
+            raise ValueError(
+                f"Prompt exceeds n_ctx: {llama.n_tokens + n_tokens} > {llama.n_ctx()}"
+            )
+
+        img_bytes = self.load_image(image_url)
+        img_u8_p = self._llava_cpp.clip_image_u8_init()
+        if not self._llava_cpp.clip_image_load_from_bytes(
+            ctypes.create_string_buffer(img_bytes, len(img_bytes)),
+            ctypes.c_size_t(len(img_bytes)),
+            img_u8_p,
+        ):
+            self._llava_cpp.clip_image_u8_free(img_u8_p)
+            raise ValueError("Failed to load image.")
+
+        img_f32 = self._llava_cpp.clip_image_f32_batch()
+        img_f32_p = ctypes.byref(img_f32)
+        if not self._llava_cpp.clip_image_preprocess(self.clip_ctx, img_u8_p, img_f32_p):
+            self._llava_cpp.clip_image_f32_batch_free(img_f32_p)
+            self._llava_cpp.clip_image_u8_free(img_u8_p)
+            raise ValueError("Failed to preprocess image.")
+
+        n_embd = llama_core.llama_model_n_embd(llama._model.model)
+        # n_tokens = 256
+        embed = (ctypes.c_float * (n_tokens * n_embd))()
+        if not self._llava_cpp.clip_image_batch_encode(self.clip_ctx, llama.n_threads, img_f32_p, embed):
+            self._llava_cpp.clip_image_f32_batch_free(img_f32_p)
+            self._llava_cpp.clip_image_u8_free(img_u8_p)
+            raise ValueError("Failed to encode image.")
+
+        self._llava_cpp.clip_image_f32_batch_free(img_f32_p)
+        self._llava_cpp.clip_image_u8_free(img_u8_p)
+        llama_core.llama_set_causal_attn(llama.ctx, False)
+
+        seq_id_0 = (ctypes.c_int32 * 1)()
+        seq_ids = (ctypes.POINTER(ctypes.c_int32) * (n_tokens + 1))()
+        for i in range(n_tokens):
+            seq_ids[i] = seq_id_0
+
+        batch = llama_core.llama_batch()
+        batch.n_tokens = n_tokens
+        batch.token = None
+        batch.embd = embed
+        batch.pos = (ctypes.c_int32 * n_tokens)(*[i + llama.n_tokens for i in range(n_tokens)])
+        batch.seq_id = seq_ids
+        batch.n_seq_id = (ctypes.c_int32 * n_tokens)(*([1] * n_tokens))
+        batch.logits = (ctypes.c_int8 * n_tokens)()
+
+        if llama_core.llama_decode(llama.ctx, batch):
+            raise ValueError("Failed to decode image.")
+
+        llama_core.llama_set_causal_attn(llama.ctx, True)
+        # Required to avoid issues with hf tokenizer
+        llama.input_ids[llama.n_tokens : llama.n_tokens + n_tokens] = -1
+        llama.n_tokens += n_tokens
 
 @register_chat_completion_handler("chatml-function-calling")
 def chatml_function_calling(
